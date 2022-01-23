@@ -17,6 +17,12 @@ public class Summarizing {
         System.out.println("Menu statistics: " + calculateMenuStatistics());
         System.out.println("Short menu: " + getShortMenu());
         System.out.println("Short menu comma separated: " + getShortMenuCommaSeparated());
+
+        System.out.println("Scott max: + " + getMaxCalories());
+
+        System.out.println("Customized Collector" + menu.stream().collect(new ToListCollector<Dish>()));
+
+        System.out.println("Customized Collector" + menu.stream().collect(ArrayList::new, List::add, List::addAll));
     }
 
 
@@ -53,4 +59,12 @@ public class Summarizing {
     private static String getShortMenuCommaSeparated() {
         return menu.stream().map(Dish::getName).collect(joining(", "));
     }
+
+    private static int getMaxCalories() {
+        Comparator<Dish> dishCaloriesComparator = Comparator.comparingInt(Dish::getCalories);
+        Optional<Dish> mostCalorisDish = menu.stream().collect(maxBy(dishCaloriesComparator));
+        return mostCalorisDish.get().getCalories();
+
+    }
+
 }

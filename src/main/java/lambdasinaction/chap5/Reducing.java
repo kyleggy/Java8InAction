@@ -27,5 +27,14 @@ public class Reducing{
                            .map(Dish::getCalories)
                            .reduce(0, Integer::sum);
         System.out.println("Number of calories:" + calories);
+
+        int caloriesMin = menu.stream()
+                .map(Dish::getCalories)
+                .reduce(10000, Integer::min);
+        System.out.println("Number of min calories:" + caloriesMin);
+
+        int number = menu.stream().map(d -> 1).reduce(0, Integer::sum);
+
+        System.out.println("Number of dishes: " + number);
     }
 }

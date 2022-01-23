@@ -34,19 +34,34 @@ public class NumericStreams{
         }
         System.out.println(max);
 
+        max = maxCalories.orElse(1);
+
+        System.out.println("orElse max: " + max);
+
         // numeric ranges
         IntStream evenNumbers = IntStream.rangeClosed(1, 100)
                                  .filter(n -> n % 2 == 0);
 
         System.out.println(evenNumbers.count());
 
+        IntStream oddNumbers = IntStream.range(1, 100).filter(n -> n %2 == 0);
+        System.out.println("The number of oddNumbers are: " + oddNumbers.count());
+
+
         Stream<int[]> pythagoreanTriples =
                IntStream.rangeClosed(1, 100).boxed()
                         .flatMap(a -> IntStream.rangeClosed(a, 100)
                                                .filter(b -> Math.sqrt(a*a + b*b) % 1 == 0).boxed()
-                                               .map(b -> new int[]{a, b, (int) Math.sqrt(a * a + b * b)}));       
+                                               .map(b -> new int[]{a, b, (int) Math.sqrt(a * a + b * b)}));
 
-        pythagoreanTriples.forEach(t -> System.out.println(t[0] + ", " + t[1] + ", " + t[2])); 
+        pythagoreanTriples.limit(5).forEach(t -> System.out.println(t[0] + ", " + t[1] + ", " + t[2]));
+
+        Stream<double[]> pythagoreanTriplesOneSquare =
+                IntStream.rangeClosed(1, 100).boxed()
+                        .flatMap(a -> IntStream.rangeClosed(a, 100)
+                                .mapToObj(b -> new double[]{a, b, Math.sqrt(a * a + b * b)} )
+                                .filter(t -> t[2]%1 == 0));
+        pythagoreanTriplesOneSquare.limit(5).forEach(t -> System.out.println(t[0] + ", " + t[1] + ", " + t[2]));
 
     }
    
